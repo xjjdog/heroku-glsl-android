@@ -3,6 +3,7 @@ GLSL  Gallery.
 
 Over 11,701 examples now can run on Android.
 
+![screenshort](https://raw.githubusercontent.com/lycying/heroku-glsl-android/master/publish/chart.png)
 
 * OpenGL ES 2.0
 * Libgdx
