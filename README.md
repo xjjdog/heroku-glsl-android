@@ -1,3 +1,12 @@
+GLSL  Gallery.
+=============
+
+Over 11,701 examples now can run on Android.
+
+
+* OpenGL ES 2.0
+* Libgdx
+* Used as live wallpaper.
 
 had published at :
 
@@ -14,4 +23,5 @@ https://play.google.com/store/apps/details?id=info.u250.glsl
 
 
 Download :
+==========
 https://github.com/lycying/heroku-glsl-android/raw/master/publish/heroku-glsl-android.apk
