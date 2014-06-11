@@ -2,6 +2,8 @@ package info.u250.c2d.tests.android;
 
 import info.u250.c2d.engine.Engine;
 import info.u250.c2d.engine.Scene;
+import info.u250.c2d.engine.SceneStage;
+import info.u250.c2d.graphic.C2dStage;
 
 import java.io.File;
 
@@ -14,15 +16,22 @@ import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.google.android.gms.internal.bu;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
-public class AScene implements Scene {
+public class AScene extends SceneStage {
 	ShaderProgram shader ;
 	FrameBuffer frameBuffer;
 	Mesh mesh ;
@@ -30,8 +39,6 @@ public class AScene implements Scene {
 	String msg = "";
 	boolean hasTime = true;
 	boolean hasResolution = true;
-	
-	
 	boolean loadOk = false;
 	
 	public void setup(String fragmentShader){
@@ -54,7 +61,7 @@ public class AScene implements Scene {
 		AScene.this.mesh.setIndices(new short[]{0, 1, 2, 2, 1, 3});
 
 		
-		AScene.this.frameBuffer = new FrameBuffer(Format.RGB565, (int)(Engine.getWidth()/4), (int)(Engine.getHeight()/4), false);
+		AScene.this.frameBuffer = new FrameBuffer(Format.RGB565, (int)(Engine.getWidth()), (int)(Engine.getHeight()), false);
 		AScene.this.resolution.set(frameBuffer.getWidth(), frameBuffer.getHeight());
 		
 		
@@ -62,12 +69,24 @@ public class AScene implements Scene {
 	}
 	String cacheDir = "";
 	public AScene(File cacheDir,String fileName){
+		button = new ImageButton(new TextureRegionDrawable(new TextureRegion(Engine.resource("BBB",Texture.class))));
+		button.setPosition(Engine.getWidth()-button.getWidth(), Engine.getHeight()-button.getHeight());
+		this.addActor(button);
+		
 		this.cacheDir = cacheDir.getAbsolutePath();
 //		shader = createDefaultShader(fileName);
 		final String localAimFile=cacheDir.getAbsolutePath()+"/"+fileName;
 		final File localAimFileFile = new File(localAimFile);
 		if(localAimFileFile.exists()){
-			this.setup(Gdx.files.absolute(localAimFile).readString());
+			final String code = Gdx.files.absolute(localAimFile).readString();
+			this.setup(code);
+			button.addListener(new ClickListener(){
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					((TheEngineInstance)(Engine.get())).androidInterface.showDialog(localAimFile,code);
+					super.clicked(event, x, y);
+				}
+			});
 		}else{
 			String httpAimFile = "https://raw.githubusercontent.com/yadongx/glsl/master/glsl/"+fileName;
 			HttpRequest request = new HttpRequest(HttpMethods.GET);
@@ -81,6 +100,13 @@ public class AScene implements Scene {
 						public void run () {
 							Gdx.files.absolute(localAimFile).writeBytes(bytes, false);
 							AScene.this.setup(new String(bytes));
+							button.addListener(new ClickListener(){
+								@Override
+								public void clicked(InputEvent event, float x, float y) {
+									((TheEngineInstance)(Engine.get())).androidInterface.showDialog(localAimFile,new String(bytes));
+									super.clicked(event, x, y);
+								}
+							});
 						}
 					});		
 				}
@@ -97,11 +123,14 @@ public class AScene implements Scene {
 			});
 
 		}
+		
 	}
 	float accum = 0;
+	ImageButton button;
 	@Override
 	public void update(float delta) {
 		accum+=delta;
+		super.update(delta);
 	}
 	Vector2 resolution= new Vector2(Engine.getWidth(),Engine.getHeight());
 	@Override
@@ -143,22 +172,14 @@ public class AScene implements Scene {
 			Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			Engine.debugInfo("\n\n\tDownloadding........");
 		}
-	}
-
-	@Override
-	public void show() {
-		
-	}
-
-	@Override
-	public void hide() {
-		
+		super.render(delta);
 	}
 
 	@Override
 	public InputProcessor getInputProcessor() {
-		return null;
+		return this;
 	}
+	
 //	public ShaderProgram createDefaultShader (String fileName) {
 //		String vertexShader = "attribute vec3 position; void main() { gl_Position = vec4( position, 1.0 ); }";
 //		String fragmentShader = Gdx.files.absolute(fileName).readString();

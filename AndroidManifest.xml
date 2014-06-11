@@ -1,39 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="info.u250.glsl"
-      android:versionCode="3"
-      android:versionName="2.0"
-      android:installLocation="preferExternal">
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
-<uses-sdk
+    package="info.u250.glsl"
+    android:installLocation="preferExternal"
+    android:versionCode="4"
+    android:versionName="2.4" >
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<application android:icon="@drawable/icon" android:label="@string/app_name" android:name="info.u250.c2d.tests.android.MyApplication"
-		>
-		    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-	    
-		<activity android:name="info.u250.c2d.tests.android.AndroidTestStarter" android:label="@string/app_name"
-			android:configChanges="keyboard|keyboardHidden|orientation">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		
-		<activity android:name="info.u250.c2d.tests.android.SubsActivity" android:label="@string/app_name">
-		</activity>
-		
-		<activity android:name="info.u250.c2d.tests.android.GlslTestActivity" 
-				  android:label="@string/app_name"
-				  android:configChanges="keyboard|keyboardHidden|orientation"
-				  android:screenOrientation="landscape"/>	
-				  
-		<activity android:name="com.google.android.gms.ads.AdActivity"
-             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-        
-	</application>
 
-</manifest> 
+    <application
+        android:name="info.u250.c2d.tests.android.MyApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="info.u250.c2d.tests.android.AndroidTestStarter"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="info.u250.c2d.tests.android.SubsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="info.u250.c2d.tests.android.GlslTestActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+    </application>
+
+</manifest>

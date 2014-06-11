@@ -10,9 +10,11 @@ import java.io.File;
 public class TheEngineInstance extends Engine {
 	String fileName = null;
 	File cacheDir;
-	public TheEngineInstance(File cacheDir ,String name){
+	AndroidInterface androidInterface;
+	public TheEngineInstance(AndroidInterface androidInterface,File cacheDir ,String name){
 		fileName = name;
 		this.cacheDir = cacheDir;
+		this.androidInterface = androidInterface;
 	}
 	@Override
 	protected EngineDrive onSetupEngineDrive() {
@@ -20,14 +22,14 @@ public class TheEngineInstance extends Engine {
 			
 			@Override
 			public EngineOptions onSetupEngine() {
-				EngineOptions opt = new EngineOptions(new String[]{}, 960, 540);
+				EngineOptions opt = new EngineOptions(new String[]{"view-source.png"}, 960, 540);
 				opt.useGL20 = true;
 				return opt;
 			}
 			
 			@Override
 			public void onResourcesRegister(AliasResourceManager<String> reg) {
-				
+				reg.texture("BBB", "view-source.png");
 			}
 			
 			@Override
@@ -40,6 +42,9 @@ public class TheEngineInstance extends Engine {
 				
 			}
 		};
+	}
+	public AndroidInterface getAndroidInterface() {
+		return androidInterface;
 	}
 
 }

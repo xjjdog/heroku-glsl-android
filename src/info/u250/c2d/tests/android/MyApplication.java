@@ -18,9 +18,9 @@ public class MyApplication extends Application {
         DisplayImageOptions defaultOptions =
         
         new DisplayImageOptions.Builder()  
-        .showImageOnLoading(R.drawable.ld) 
-        .showImageForEmptyUri(R.drawable.ld)    
-          .showImageOnFail(R.drawable.ld)
+        .showImageOnLoading(R.drawable.item) 
+        .showImageForEmptyUri(R.drawable.item)    
+          .showImageOnFail(R.drawable.item)
           .cacheInMemory(true)  
           .cacheOnDisc(true)  
           .displayer(new SimpleBitmapDisplayer()) 

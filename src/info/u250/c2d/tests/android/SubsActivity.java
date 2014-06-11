@@ -1,11 +1,13 @@
 package info.u250.c2d.tests.android;
 
 import info.u250.glsl.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -24,12 +29,7 @@ public class SubsActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		
         setContentView(R.layout.subs);
-       
-        
         Bundle extras = getIntent().getExtras();
 		int from = extras.getInt("from");
 		int to = extras.getInt("to");
@@ -62,7 +62,9 @@ public class SubsActivity extends ListActivity {
                 else return false;
             }
         });
-        
+        AdView adView = (AdView)this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
